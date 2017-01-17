@@ -2,7 +2,7 @@
 
 FROM ubuntu:14.04
 
-MAINTAINER Mobile Builds Eng "mobile-builds-eng@uber.com"
+MAINTAINER "ben@aylessoftware.com"
 
 # Sets language to UTF8 : this works in pretty much all cases
 ENV LANG en_US.UTF-8
@@ -126,3 +126,10 @@ WORKDIR $PROJECT
 
 USER $RUN_USER
 RUN echo "sdk.dir=$ANDROID_HOME" > local.properties
+
+# Add android licence key
+RUN mkdir "${ANDROID_HOME}/licenses" || true
+RUN echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > "${ANDROID_HOME}/licenses/android-sdk-license"
+
+# Grab the Android Support Repo
+RUN android update sdk --filter "extra-android-m2repository" --no-ui -a
